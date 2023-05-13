@@ -1,0 +1,52 @@
+//Sd: đối với các chuỗi string 
+class Solution {
+    public String longestPalindrome(String input) {
+        ArrayList<String> allSubstrings = new ArrayList<String>();
+        int n = input.length();
+        for (int i = 0; i < n; i++) {
+            for (int j = i+1; j <= n; j++) {
+                String sub = input.substring(i, j);
+                allSubstrings.add(sub);
+            }
+        }
+
+        String longestPalindrome = "";
+        for (String s : allSubstrings) {
+            if (isPalindrome(s)) {
+                if (s.length() > longestPalindrome.length()) {
+                    longestPalindrome = s;
+                }
+            }
+        }
+        return longestPalindrome;
+    }
+    public static boolean isPalindrome(String s) {
+        int n = s.length();
+        for (int i = 0; i < n/2; i++) {
+            if (s.charAt(i) != s.charAt(n-i-1)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+//sử dụng đối với các chuỗi string dài:Thuật toán Dynamic Programming 
+class Solution {
+    public String longestPalindrome(String s) {
+        int n = s.length();
+        boolean[][] dp = new boolean[n][n];
+        String longestPalindrome = "";
+        
+        for (int i = n-1; i >= 0; i--) {
+            for (int j = i; j < n; j++) {
+                dp[i][j] = s.charAt(i) == s.charAt(j) && (j-i < 2 || dp[i+1][j-1]);
+                
+                if (dp[i][j] && j-i+1 > longestPalindrome.length()) {
+                    longestPalindrome = s.substring(i, j+1);
+                }
+            }
+        }
+        
+        return longestPalindrome;
+    }
+}
