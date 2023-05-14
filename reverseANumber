@@ -1,0 +1,40 @@
+class Solution {
+    public int reverse(int x) {
+        ArrayList<Long> listNumber = new ArrayList<>();
+        boolean sign = true;
+        if(x<0) {
+            sign = false;
+            x=x*-1;
+        }
+        long flat = 1;
+        long numberDevide = 10;
+        int key=0;
+        long temp = (long)x;
+        long flatBefore = temp;
+       
+        while(flat!=0) {
+          flat = temp/numberDevide;  //12  //1  //0.123
+          listNumber.add((flatBefore-(flat*10)));
+          numberDevide*=10;   //100     //1000  //10000
+          key++;   //1    //2    //3
+          flatBefore = flat;
+        }
+        long number = 0;
+        long currentNum = 0;
+        for(int i=0; i<listNumber.size(); i++) {
+            currentNum = listNumber.get(i);
+            for(int m=i+1; m<listNumber.size(); m++) {
+               currentNum*=10;
+            }
+            number+=currentNum;
+        }
+        if(number<Math.pow(-2, 31) || number>Math.pow(2, 31)) {
+            return 0;
+        }
+        if(sign==false) {
+          return (int)(number*-1);
+        }else{
+            return (int)number;
+        }
+    }
+}
